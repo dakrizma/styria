@@ -1,15 +1,25 @@
-{% load url from future %}
 <!DOCTYPE html>
 <html>
 <head>
 	<title></title>
 </head>
 <body>
-	<form action="{% url 'index' %}" method="post">{% csrf_token %}
-		<ul>
-			{{ form.as_ul }}
-		</ul>
-		<input type="submit" value="Unos" />
-	</form>
+<form action="{% url 'rss:index' %}" method="post">{% csrf_token %}
+	<ul>
+		{{ form.as_ul }}
+	</ul>
+	<input type="submit" value="Unos" />
+</form>
+		
+{% if lista_list %}
+	<ul>
+		{% for lista in lista_list %}
+		<li>{{ lista.title }} - {{ lista.link }} - {{ lista.status }}</li>
+		{% endfor %}
+	</ul>
+{% else %}
+	<p>Lista je prazna!</p>
+{% endif %}
+
 </body>
 </html>
