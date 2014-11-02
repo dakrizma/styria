@@ -1,0 +1,11 @@
+<h1>Update</h1>
+
+<form action="{{ action }}" method="POST">{% csrf_token %}
+	<ul>
+		{{ form.as_ul }}
+	</ul>
+	<input type="submit" value="Edit" />
+</form>
+<form action="{% url 'rss:index' %}">
+	<input type="submit" value="Home">
+</form>

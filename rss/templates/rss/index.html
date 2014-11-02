@@ -1,41 +1,36 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title></title>
-</head>
-	<body>
-	<form action="" method="post">{% csrf_token %}
-		<ul>
-			{{ form.as_ul }}
-		</ul>
-		<input type="submit" value="Unos" />
-	</form>
-			
-	{% if lista_list %}
-		<ul>
-			{% for lista in lista_list %}
-			<li>{{ lista.title }} - {{ lista.link }} - {{ lista.status }}</li>
-			{% endfor %}
-		</ul>
-	{% else %}
-		<p>Lista je prazna!</p>
-	{% endif %}
+<h1>Forma</h1>
 
-{% comment %}
-	<div class="pagination">
-		<span class="step-links">
-			{% if lista_list.has_previous %}
-				<a href="?page={{ lista_list.previous_page_number }}">previous</a>
-			{% endif %}
-			<span class="current">
-				Page {{ lista_list.number }} of {{ paginator.num_pages }}.
-			</span>
-			{% if lista_list.has_next %}
-				<a href="?page={{ lista_list.next_page_number }}">next</a>
-			{% endif %}
+<form action="{% url 'rss:index' %}" method="POST">{% csrf_token %}
+	<ul>
+		{{ form.as_ul }}
+	</ul>
+	<input type="submit" value="Unos" />
+</form>
+	
+<h1>Lista</h1>
+
+{% if lista_list %}
+	<ul>
+	{% for lista in lista_list %}
+		<li>{{ lista.title }} - {{ lista.link }} - {% if lista.status == "1" %}aktivan{% elif lista.status == "0" %}nije aktivan{% else %}error{% endif %} --- <a href="{% url 'rss:update' lista.pk %}">EDIT</a></li>
+	{% endfor %}
+	</ul>
+{% else %}
+	<p>Lista je prazna!</p>
+{% endif %}
+
+{% if is_paginated %}
+<div class="pagination">
+	<span class="links">
+		{% if page_obj.has_previous %}
+			<a href="?page={{ page_obj.previous_page_number }}">previous</a>
+		{% endif %}
+		<span class="current">
+			Page {{ page_obj.number }} of {{ paginator.num_pages }}
 		</span>
-	</div>
-{% endcomment %}
-
-</body>
-</html>
+		{% if page_obj.has_next %}
+			<a href="?page={{ page_obj.next_page_number }}">next</a>
+		{% endif %}
+	</span>
+</div>
+{% endif %}
