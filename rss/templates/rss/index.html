@@ -1,4 +1,4 @@
-<h1>Forma</h1>
+<h2>Forma</h2>
 
 <form action="{% url 'rss:index' %}" method="POST">{% csrf_token %}
 	<ul>
@@ -10,7 +10,7 @@
 	<input type="submit" value="Spremi sve feedove" />
 </form>
 	
-<h1>Lista</h1>
+<h2>Lista</h2>
 
 {% if feed_list %}
 	<ul>

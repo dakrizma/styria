@@ -66,18 +66,18 @@ class RssUpdateView(UpdateView):
 		context['action'] = reverse('rss:update', kwargs={'pk': self.get_object().pk})
 		return context
 
-# class Words(object):
+class Words():
 
-# 	def word_count(self):
-# 		feed = feedparser.parse('http://www.economist.com/blogs/analects/index.xml')
-# 		for i in range(0, len(feed['entries'])):
-# 			p = Entry.objects.create(
-# 				title = feed['entries'][i].title,
-# 				description = feed['entries'][i].description,
-# 				url = feed['entries'][i].link,
-# 				feed = Feed.objects.get(id=1)
-# 			)
-# 			p.save
+	def word_count():
+		feed = feedparser.parse('https://sg.entertainment.yahoo.com/rss/')
+		for i in range(0, len(feed['entries'])):
+			p = Entry.objects.create(
+				title = feed['entries'][i].title,
+				description = feed['entries'][i].description,
+				url = feed['entries'][i].link,
+				feed = Feed.objects.get(id=1)
+			)
+			p.save
 	
 		# context = {'title': title, 'description': description, 'url': url,}
 		# return render(request, 'rss/temp.html', context)
@@ -86,7 +86,7 @@ class RssUpdateView(UpdateView):
 # 		result = 0
 # 		return result
 
-class WordView(ListView):
+class WordView(Words, ListView):
 	
 	def word_count():
 		feed = feedparser.parse('https://sg.entertainment.yahoo.com/rss/')
@@ -106,3 +106,15 @@ class WordView(ListView):
 
 	def get_queryset(self):
 		return Entry.objects.all()
+
+class Iz(object):
+	def novi(self):
+		data = 3
+		return data
+
+class Print(Iz, View):
+	def izlaz(request):
+		context = 3
+		# Super(Iz, self).novi()
+		return render(request, 'rss/temp.html', {'data': context})
+	izlaz(self)
