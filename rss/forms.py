@@ -4,4 +4,4 @@ from rss.models import *
 
 class RssForm(ModelForm):
 	class Meta:
-		model = Lista
+		model = Feed

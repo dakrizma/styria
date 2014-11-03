@@ -1,14 +1,17 @@
-from django.views.generic import ListView
+from django.views.generic import ListView, View
 from django.views.generic.edit import FormMixin, UpdateView
 from django.core.urlresolvers import reverse
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, render
+import feedparser
 
 from rss.models import *
 from rss.forms import *
 
 
 class RssFormMixin(FormMixin):
-
+	'''
+		Feed forma
+	'''
 	form_class = RssForm
 	success_url = '/'
 
@@ -28,13 +31,15 @@ class RssFormMixin(FormMixin):
 			return self.form_invalid(form)
 
 class RssView(RssFormMixin, ListView):
-
+	'''
+		Feed forma & Feed lista
+	'''
 	template_name = "rss/index.html"
-	model = Lista
+	model = Feed
 	paginate_by = 10
 
 	def get_queryset(self):
-		return Lista.objects.order_by('-pk')
+		return Feed.objects.order_by('-pk')
 
 	def get(self, *args, **kwargs):
 		form_class = self.get_form_class()
@@ -47,9 +52,11 @@ class RssView(RssFormMixin, ListView):
 		return self.render_to_response(context)
 
 class RssUpdateView(UpdateView):
-	
+	'''
+		Feed (status) editiranje
+	'''
 	template_name = "rss/update.html"
-	model = Lista
+	model = Feed
 
 	def get_success_url(self):
 		return reverse('rss:index')
@@ -58,3 +65,44 @@ class RssUpdateView(UpdateView):
 		context = super(RssUpdateView, self).get_context_data(**kwargs)
 		context['action'] = reverse('rss:update', kwargs={'pk': self.get_object().pk})
 		return context
+
+# class Words(object):
+
+# 	def word_count(self):
+# 		feed = feedparser.parse('http://www.economist.com/blogs/analects/index.xml')
+# 		for i in range(0, len(feed['entries'])):
+# 			p = Entry.objects.create(
+# 				title = feed['entries'][i].title,
+# 				description = feed['entries'][i].description,
+# 				url = feed['entries'][i].link,
+# 				feed = Feed.objects.get(id=1)
+# 			)
+# 			p.save
+	
+		# context = {'title': title, 'description': description, 'url': url,}
+		# return render(request, 'rss/temp.html', context)
+	
+# 	def remove_tags(description):
+# 		result = 0
+# 		return result
+
+class WordView(ListView):
+	
+	def word_count():
+		feed = feedparser.parse('https://sg.entertainment.yahoo.com/rss/')
+		for i in range(0, len(feed['entries'])):
+			p = Entry.objects.create(
+				title = feed['entries'][i].title,
+				description = feed['entries'][i].description,
+				url = feed['entries'][i].link,
+				feed = Feed.objects.get(id=1)
+			)
+			p.save()
+
+	word_count()
+	template_name = "rss/temp.html"
+	model = Entry
+	paginate_by = 10
+
+	def get_queryset(self):
+		return Entry.objects.all()

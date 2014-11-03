@@ -6,13 +6,16 @@
 	</ul>
 	<input type="submit" value="Unos" />
 </form>
+<form action="{% url 'rss:word' %}">
+	<input type="submit" value="Spremi sve feedove" />
+</form>
 	
 <h1>Lista</h1>
 
-{% if lista_list %}
+{% if feed_list %}
 	<ul>
-	{% for lista in lista_list %}
-		<li>{{ lista.title }} - {{ lista.link }} - {% if lista.status == "1" %}aktivan{% elif lista.status == "0" %}nije aktivan{% else %}error{% endif %} --- <a href="{% url 'rss:update' lista.pk %}">EDIT</a></li>
+	{% for feed in feed_list %}
+		<li>{{ feed.link }} - {% if feed.status == 1 %}aktivan{% elif feed.status == 0 %}nije aktivan{% else %}error{% endif %} --- <a href="{% url 'rss:update' feed.pk %}">EDIT</a></li>
 	{% endfor %}
 	</ul>
 {% else %}
