@@ -86,7 +86,7 @@ class Words():
 # 		result = 0
 # 		return result
 
-class WordView(Words, ListView):
+class WordView(ListView):
 	
 	def word_count():
 		feed = feedparser.parse('https://sg.entertainment.yahoo.com/rss/')
@@ -107,14 +107,14 @@ class WordView(Words, ListView):
 	def get_queryset(self):
 		return Entry.objects.all()
 
-class Iz(object):
-	def novi(self):
-		data = 3
-		return data
+# class Iz(object):
+# 	def novi(self):
+# 		data = 3
+# 		return data
 
-class Print(Iz, View):
-	def izlaz(request):
-		context = 3
-		# Super(Iz, self).novi()
-		return render(request, 'rss/temp.html', {'data': context})
-	izlaz(self)
+# class Print(Iz, View):
+# 	def izlaz(request):
+# 		context = 3
+# 		# Super(Iz, self).novi()
+# 		return render(request, 'rss/temp.html', {'data': context})
+# 	izlaz(self)
