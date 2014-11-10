@@ -1,7 +1,6 @@
 from django.views.generic import ListView, View
 from django.views.generic.edit import FormMixin, UpdateView
 from django.core.urlresolvers import reverse
-from django.http import HttpResponse
 from django.shortcuts import render_to_response, render
 import feedparser
 
@@ -87,22 +86,6 @@ class Words():
 # 		result = 0
 # 		return result
 
-class EntryDelete(ListView):
-
-	def entry_delete():
-		if Entry.objects.count() > 200:
-			for i in range(0, 200):
-				Entry.objects.all()[i].delete()
-			
-	entry_delete()
-
-	template_name = "rss/delete.html"
-	model = Entry
-	paginate_by = 10
-
-	def get_queryset(self):
-		return Entry.objects.all()
-	
 class WordView(ListView):
 	
 	def word_count():
@@ -114,11 +97,9 @@ class WordView(ListView):
 				url = feed['entries'][i].link,
 				feed = Feed.objects.get(id=1)
 			)
-			# p.save()
-
+			p.save()
 
 	word_count()
-
 	template_name = "rss/temp.html"
 	model = Entry
 	paginate_by = 10
